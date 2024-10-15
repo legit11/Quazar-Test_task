@@ -103,13 +103,13 @@ To set up the project, follow these steps:
    poetry install
 6. Copy the .env_example file and rename it to .env. Set the parameter values in the file:
    
-```
-DB_HOST=<db host>
-DB_PORT=<db port>
-DB_USER=<postgres user>
-DB_PASS=<postgres password>
-DB_NAME=<db name>
-```
+   ```
+   DB_HOST=<db host>
+   DB_PORT=<db port>
+   DB_USER=<postgres user>
+   DB_PASS=<postgres password>
+   DB_NAME=<db name>
+   ```
 7. Apply migrations:
    ```bash
    alembic upgrade head

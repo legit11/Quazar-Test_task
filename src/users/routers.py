@@ -3,6 +3,7 @@ from typing import Dict, Any
 
 from src.users.dao import UserDao
 from src.users.schemas import UserCreate, UserFromDB, UserUpdate
+from src.users.service import UserService
 
 router = APIRouter(
     prefix="/users",
@@ -10,32 +11,9 @@ router = APIRouter(
 )
 
 
-@router.get("/users/statistics", response_model=Dict[str, Any])
+@router.get("/statistics", response_model=Dict[str, Any])
 async def get_user_statistics(domain: str):
-    try:
-        recent_users_count = await UserDao.count_recent_users()
-    except Exception as e:
-        raise HTTPException(status_code=500, detail=f"Error counting recent users: {str(e)}")
-
-    try:
-        top_5_users = await UserDao.top_5_longest_usernames()
-    except Exception as e:
-        raise HTTPException(status_code=500, detail=f"Error retrieving top 5 users: {str(e)}")
-
-    try:
-        domain_share = await UserDao.get_domain_share(domain)
-        if domain_share is None:
-            raise HTTPException(status_code=404, detail="Domain share not found.")
-    except Exception as e:
-        raise HTTPException(status_code=500, detail=f"Error retrieving domain share: {str(e)}")
-
-    result = {
-        "recent_users_count": recent_users_count,
-        "top_5_users": [UserFromDB.from_orm(user) for user in top_5_users],
-        "domain_share": domain_share
-    }
-
-    return result
+    return await UserService.get_user_statistics(domain)
 
 
 @router.post("/users", response_model=UserFromDB)

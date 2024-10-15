@@ -14,20 +14,28 @@ router = APIRouter(
 async def get_user_statistics(domain: str):
     try:
         recent_users_count = await UserDao.count_recent_users()
-
-        top_5_users = await UserDao.top_5_longest_usernames()
-
-        domain_share = await UserDao.get_domain_share(domain)
-
-        result = {
-            "recent_users_count": recent_users_count,
-            "top_5_users": [UserFromDB.from_orm(user) for user in top_5_users],
-            "domain_share": domain_share
-        }
-
-        return result
     except Exception as e:
-        raise HTTPException(status_code=500, detail=str(e))
+        raise HTTPException(status_code=500, detail=f"Error counting recent users: {str(e)}")
+
+    try:
+        top_5_users = await UserDao.top_5_longest_usernames()
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Error retrieving top 5 users: {str(e)}")
+
+    try:
+        domain_share = await UserDao.get_domain_share(domain)
+        if domain_share is None:
+            raise HTTPException(status_code=404, detail="Domain share not found.")
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Error retrieving domain share: {str(e)}")
+
+    result = {
+        "recent_users_count": recent_users_count,
+        "top_5_users": [UserFromDB.from_orm(user) for user in top_5_users],
+        "domain_share": domain_share
+    }
+
+    return result
 
 
 @router.post("/users", response_model=UserFromDB)

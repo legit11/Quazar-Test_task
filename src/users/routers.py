@@ -1,5 +1,5 @@
 from fastapi import APIRouter, HTTPException
-from typing import List, Dict, Any
+from typing import Dict, Any
 
 from src.users.dao import UserDao
 from src.users.schemas import UserCreate, UserFromDB, UserUpdate
@@ -30,7 +30,7 @@ async def get_user_statistics(domain: str):
         raise HTTPException(status_code=500, detail=str(e))
 
 
-@router.post("/users/", response_model=UserFromDB)
+@router.post("/users", response_model=UserFromDB)
 async def create_user(user: UserCreate):
     user_data = user.dict()
 
@@ -38,7 +38,7 @@ async def create_user(user: UserCreate):
     if existing_user_by_email:
         raise HTTPException(status_code=400, detail="Email already registered")
 
-    existing_user_by_username = await UserDao.find_user(user_data['username'])
+    existing_user_by_username = await UserDao.find_by_username(user_data['username'])
     if existing_user_by_username:
         raise HTTPException(status_code=400, detail="Username already taken")
 
@@ -49,7 +49,7 @@ async def create_user(user: UserCreate):
         raise HTTPException(status_code=400, detail=str(e))
 
 
-@router.get("/users/", response_model=List[UserFromDB])
+@router.get("/users", response_model=list[UserFromDB])
 async def read_users(page: int = 1, size: int = 10):
     users = await UserDao.find_all(page, size)
     return users
@@ -73,11 +73,11 @@ async def update_user(user_id: int, user: UserUpdate):
     return updated_user
 
 
-@router.delete("/users/{user_id}", response_model=UserFromDB)
+@router.delete("/users/{user_id}")
 async def delete_user(user_id: int):
     existing_user = await UserDao.find_by_id(user_id)
     if existing_user is None:
         raise HTTPException(status_code=404, detail="User not found")
 
     await UserDao.delete_by_id(user_id)
-    return existing_user
+    return("User deleted")

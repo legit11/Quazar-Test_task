@@ -17,7 +17,7 @@ class UserDao(BaseDAO):
             return result.scalars().first()
 
     @classmethod
-    async def find_user(cls, identifier: str):
+    async def find_by_username(cls, identifier: str):
         async with async_session_maker() as session:
             result = await session.execute(select(cls.model).where(
                 (cls.model.email == identifier) | (cls.model.username == identifier)

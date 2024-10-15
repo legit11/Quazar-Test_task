@@ -16,19 +16,19 @@ async def get_user_statistics(domain: str):
     return await UserService.get_user_statistics(domain)
 
 
-@router.post("/users", response_model=UserFromDB)
+@router.post("", response_model=UserFromDB)
 async def create_user(user: UserCreate):
     user_data = user.dict()
     return await UserService.create_user(user_data)
 
 
-@router.get("/users", response_model=list[UserFromDB])
+@router.get("", response_model=list[UserFromDB])
 async def read_users(page: int = 1, size: int = 10):
     users = await UserDao.find_all(page, size)
     return users
 
 
-@router.get("/users/{user_id}", response_model=UserFromDB)
+@router.get("/{user_id}", response_model=UserFromDB)
 async def read_user(user_id: int):
     user = await UserDao.find_by_id(user_id)
     if user is None:
@@ -36,7 +36,7 @@ async def read_user(user_id: int):
     return user
 
 
-@router.put("/users/{user_id}", response_model=UserFromDB)
+@router.put("/{user_id}", response_model=UserFromDB)
 async def update_user(user_id: int, user: UserUpdate):
     existing_user = await UserDao.find_by_id(user_id)
     if existing_user is None:
@@ -46,7 +46,7 @@ async def update_user(user_id: int, user: UserUpdate):
     return updated_user
 
 
-@router.delete("/users/{user_id}")
+@router.delete("/{user_id}")
 async def delete_user(user_id: int):
     existing_user = await UserDao.find_by_id(user_id)
     if existing_user is None:

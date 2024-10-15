@@ -16,3 +16,8 @@ class UserFromDB(UserCreate):
 
 class UserUpdate(UserCreate):
     pass
+
+class UserStatistics(BaseModel):
+    recent_users_count: int
+    top_5_users: list
+    domain_share: float

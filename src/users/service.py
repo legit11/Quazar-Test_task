@@ -3,12 +3,12 @@ from typing import Dict, Any
 from fastapi import HTTPException
 
 from src.users.dao import UserDao
-from src.users.schemas import UserFromDB
+from src.users.schemas import UserFromDB, UserStatistics
 
 
 class UserService:
-    @staticmethod
-    async def get_user_statistics(domain: str) -> Dict[str, Any]:
+    @classmethod
+    async def get_user_statistics(cls, domain: str) -> UserStatistics:
         try:
             recent_users_count = await UserDao.count_recent_users()
         except Exception as e:
@@ -26,14 +26,14 @@ class UserService:
         except Exception as e:
             raise HTTPException(status_code=503, detail=f"Error retrieving domain share: {str(e)}")
 
-        return {
-            "recent_users_count": recent_users_count,
-            "top_5_users": [UserFromDB.from_orm(user) for user in top_5_users],
-            "domain_share": domain_share
-        }
+        return UserStatistics(
+            recent_users_count=recent_users_count,
+            top_5_users=[UserFromDB.from_orm(user) for user in top_5_users],
+            domain_share=domain_share
+        )
 
-    @staticmethod
-    async def create_user(user_data: Dict[str, Any]) -> UserFromDB:
+    @classmethod
+    async def create_user(cls, user_data: Dict[str, Any]) -> UserFromDB:
         existing_user_by_email = await UserDao.find_by_email(user_data['email'])
         if existing_user_by_email:
             raise HTTPException(status_code=400, detail="Email already registered")

@@ -2,7 +2,7 @@ from fastapi import APIRouter, HTTPException
 from typing import Dict, Any
 
 from src.users.dao import UserDao
-from src.users.schemas import UserCreate, UserFromDB, UserUpdate
+from src.users.schemas import UserCreate, UserFromDB, UserUpdate, UserStatistics
 from src.users.service import UserService
 
 router = APIRouter(
@@ -11,7 +11,7 @@ router = APIRouter(
 )
 
 
-@router.get("/statistics", response_model=Dict[str, Any])
+@router.get("/statistics", response_model=UserStatistics)
 async def get_user_statistics(domain: str):
     return await UserService.get_user_statistics(domain)
 
@@ -53,4 +53,3 @@ async def delete_user(user_id: int):
         raise HTTPException(status_code=404, detail="User not found")
 
     await UserDao.delete_by_id(user_id)
-    return("User deleted")

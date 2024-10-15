@@ -100,6 +100,7 @@ To set up the project, follow these steps:
 5. Use Poetry to install project dependencies:
    
    ```bash
+   poetry lock
    poetry install
 6. Copy the .env_example file and rename it to .env. Set the parameter values in the file:
    

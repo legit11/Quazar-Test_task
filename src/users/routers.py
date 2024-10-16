@@ -1,4 +1,4 @@
-from fastapi import APIRouter, HTTPException
+from fastapi import APIRouter, HTTPException, Query
 from typing import Dict, Any
 
 from src.users.dao import UserDao
@@ -23,7 +23,17 @@ async def create_user(user: UserCreate):
 
 
 @router.get("", response_model=list[UserFromDB])
-async def read_users(page: int = 1, size: int = 10):
+async def read_users(
+        page:int = Query(default=1,
+        description="Номер страницы",
+        gt=0,
+    ),
+    size: int = Query(
+        default=10,
+        description="Размер страницы",
+        gt=0,
+    )
+):
     users = await UserDao.find_all(page, size)
     return users
 

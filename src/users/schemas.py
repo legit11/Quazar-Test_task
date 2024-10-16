@@ -19,6 +19,6 @@ class UserUpdate(UserCreate):
 
 
 class UserStatistics(BaseModel):
-    recent_users_count: int
+    recent_7days_users_count: int
     top_5_users: list
     domain_share: float

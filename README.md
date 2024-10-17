@@ -110,6 +110,12 @@ To set up the project, follow these steps:
    DB_USER=<postgres user>
    DB_PASS=<postgres password>
    DB_NAME=<db name>
+   MODE=DEV
+   DB_HOST_TEST=<db host>
+   DB_PORT_TEST=<db port>
+   POSTGRES_DB_TEST=<db name>
+   POSTGRES_USER_TEST=<postgres user>
+   POSTGRES_PASSWORD_TEST=<postgres password>
    ```
 7. Apply migrations:
    ```bash

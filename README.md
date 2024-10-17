@@ -13,6 +13,7 @@ User Manager FastAPI is a straightforward user management API developed using Fa
 - [Running the Application](#running-the-application)
 - [API Endpoints](#api-endpoints)
 - [Testing with SwaggerUI](#testing-the-api-with-swagger-ui)
+- [Running Tests](#running-tests)
 - [Project Author](#project-author)
 
 
@@ -41,6 +42,11 @@ Quazar-Test_task/
 │   │   ├── config.py
 │   │   ├── database.py
 │   │   ├── main.py
+├── tests/
+│   ├── integration_tests/
+│   │   ├──test_users.py
+│   ├── __init__.py
+│   ├── conftest.py
 ├── .env-docker
 ├── .env_example
 ├── .gitignore
@@ -59,7 +65,9 @@ Quazar-Test_task/
     - **config.py**: Configuration settings for the application.
     - **database.py**: Database connection and models.
     - **main.py**: Entry point for the application.
-- **.env-docker**: Environment variables for Docker.
+- tests/: Contains test files for the application.
+    - **integration_tests**/:
+      - **Integration tests for the application**.
 - **.env_example**: Example environment variable file.
 - **.gitignore**: Specifies files and directories to be ignored by version control.
 - **Dockerfile**: Instructions for building the Docker image.
@@ -120,6 +128,16 @@ To set up the project, follow these steps:
 7. Apply migrations:
    ```bash
    alembic upgrade head
+
+### Running Tests with pytest
+
+
+Make sure you have pytest installed. If you are using Poetry, you can add it as a development dependency:
+
+
+```bash
+   poetry run pytest -v
+```
 
 
 ## Usage

@@ -1,5 +1,4 @@
 from fastapi import APIRouter, HTTPException, Query
-from typing import Dict, Any
 
 from src.users.dao import UserDao
 from src.users.schemas import UserCreate, UserFromDB, UserUpdate, UserStatistics

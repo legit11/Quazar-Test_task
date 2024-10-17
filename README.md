@@ -110,7 +110,7 @@ To set up the project, follow these steps:
    DB_USER=<postgres user>
    DB_PASS=<postgres password>
    DB_NAME=<db name>
-   MODE=DEV
+   MODE="DEV"/"TEST"
    DB_HOST_TEST=<db host>
    DB_PORT_TEST=<db port>
    POSTGRES_DB_TEST=<db name>

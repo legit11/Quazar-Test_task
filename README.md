@@ -135,10 +135,11 @@ To set up the project, follow these steps:
 Make sure you have pytest installed. If you are using Poetry, you can add it as a development dependency:
 
 
-```bash
+1. Set in .env MODE=TEST 
+2. ```bash
    poetry run pytest -v
-```
-
+   ```
+3. After testing change MODE=DEV
 
 ## Usage
 

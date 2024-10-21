@@ -47,7 +47,6 @@ Quazar-Test_task/
 │   │   ├──test_users.py
 │   ├── __init__.py
 │   ├── conftest.py
-├── .env-docker
 ├── .env_example
 ├── .gitignore
 ├── Dockerfile
